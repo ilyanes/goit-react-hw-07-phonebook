@@ -3,16 +3,9 @@ import { combineReducers } from 'redux';
 import { changeFilter } from 'redux/actions';
 import { addContact, deleteContact, fetchContacts } from './todo';
 
-function getNewContact(state, { payload }) {
-  const existContact = state.some(({ name }) => name === payload.name);
-  return !existContact
-    ? [...state, payload]
-    : alert(`${payload.name} is already in the contact`);
-}
-
 const items = createReducer([], {
-  [fetchContacts.fulfilled]: (_, { payload }) => payload,
-  [addContact.fulfilled]: (state, action) => getNewContact(state, action),
+  [fetchContacts.fulfilled]: (_, { payload }) => payload.reverse(),
+  [addContact.fulfilled]: (state, { payload }) => [payload, ...state],
   [deleteContact.fulfilled]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });

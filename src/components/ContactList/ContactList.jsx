@@ -18,11 +18,11 @@ export default function ContactList() {
     contacts && (
       <table>
         <tbody>
-          {contacts.map(({ id, name, number }) => {
+          {contacts.map(({ id, name, phone }) => {
             return (
               <tr id={id} key={id}>
                 <td>{name}</td>
-                <td>{number}</td>
+                <td>{phone}</td>
                 <td>
                   <button
                     type="button"

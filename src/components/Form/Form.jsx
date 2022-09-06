@@ -10,7 +10,7 @@ export default function Form() {
   const loader = useSelector(isLoading);
 
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setNumber] = useState('');
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
@@ -18,7 +18,7 @@ export default function Form() {
       case 'name':
         return setName(value);
 
-      case 'number':
+      case 'phone':
         return setNumber(value);
 
       default:
@@ -26,11 +26,19 @@ export default function Form() {
     }
   };
 
+  const contactName = useSelector(state =>
+    state.contacts.items.some(contact => contact.name === name)
+  );
+
   const handleSubmit = e => {
     e.preventDefault();
-
-    dispatch(addContact({ name, number }));
-    reset();
+    if (contactName) {
+      alert(`${name} is already in the contact`);
+      reset();
+    } else {
+      dispatch(addContact({ name, phone }));
+      reset();
+    }
   };
 
   const reset = () => {
@@ -61,12 +69,12 @@ export default function Form() {
         <div>
           <input
             type="tel"
-            name="number"
-            placeholder="number"
+            name="phone"
+            placeholder="phone"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
             required
-            value={number}
+            value={phone}
             id={numberInputId}
             onChange={handleChange}
           />
